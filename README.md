@@ -100,3 +100,7 @@ Flow of Events:
 
 # Unit Test Coverage of the *src* folder
 88.4%
+
+# IDE
+The project was designed and tested in Eclipse IDE for Java Developers, Version: 2020-06 (4.16.0), Build id: 20200615-1200. Compiler compliance level: 1.8 (JavaSE-1.8).
+
