@@ -7,8 +7,7 @@ You might have seen this functionality in Microsoft Word or Google Docs when the
 In similar fashion, a user will load up a JPG, PNG or GIF image from disk (these are the only image formats that supported).
 The image is displayed to the user and the user can select rectangular regions from within the image and create annotations. 
 
-All annotations are saved persistently in a JSON file after every Create/Delete event. That is, after creating an annotation in this application and exiting,
-the user will see that annotation when loading up the exact same image file (exact same path to the file) next time the application runs. 
+The annotation contents are stored to the disk into a JSON file on each delete/save request. The name of the file with the annotations for a particular image is "imageName_annotations.json". The file is located in the same directory as the image.
 
 # Architecture
 The application is designed in accordance with the 'entity-boundary-control' (EBC) architectural paradigm.
@@ -91,8 +90,13 @@ Flow of Events:
   1. User requests to quit application.
   2. AnnotationApp saves all annotations and exits.
 
-## *Notes*
-There is no use case “Edit Annotation” which allows a user to edit the annotation contents for an existing annotation. Instead, this must be carried out by deleting the old annotation region and then recreating it. This is called a “workaround”! Ultimately, a future version could offer this capability.
+# Notes
+* There is no use case “Edit Annotation” which allows a user to edit the annotation contents for an existing annotation. Instead, this must be carried out by deleting the old annotation region and then recreating it. This is called a “workaround”! Ultimately, a future version could offer this capability.
+* Any point click within rectangle is sufficient for selecting annotation.
+* No ability to close an image, only can load first image: when the application launches first,	no image is visible until the user loads one.
+* Rectangle borders of annotations cannot completely overlap each other. If the user tries to draw a new annotation inside an existing one, or if the user tries to draw a new annotation that completely shadows an existing one, an alert message will appear in the bottom of the main application window and the newly drawn annotation will be discarded.
+* The text fields which are used to enter and to display an annotation are both scrollable.
+* The maximum resolution of input image is 640*480. The image panel is not scrollable, i.e. if the resolution	of input image exceeds the maximum allowed resolution, only the top left part of it will be displayed.
 
 # Unit Test Coverage of the *src* folder
 88.4%
