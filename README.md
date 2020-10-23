@@ -104,3 +104,6 @@ Flow of Events:
 # IDE
 The project was designed and tested in Eclipse IDE for Java Developers, Version: 2020-06 (4.16.0), Build id: 20200615-1200. Compiler compliance level: 1.8 (JavaSE-1.8).
 
+# Acknowledgments
+Thank rofessor George Heineman (https://github.com/heineman) for specifying the task and teaching the EBC approach.
+
