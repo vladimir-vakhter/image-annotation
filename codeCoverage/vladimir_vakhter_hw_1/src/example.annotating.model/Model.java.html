@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Model.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (Dec 9, 2020 12:44:48 PM)</a> &gt; <a href="../../index.html" class="el_group">vladimir_vakhter_hw_1</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">example.annotating.model</a> &gt; <span class="el_source">Model.java</span></div><h1>Model.java</h1><pre class="source lang-java linenums">package example.annotating.model;
+
+import java.awt.Color;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+public class Model implements Iterable&lt;Annotation&gt; {
+
+<span class="fc" id="L14">	String imagePath 					= &quot;&quot;;					// path to the active image</span>
+<span class="fc" id="L15">	String annotationsPath 				= &quot;&quot;;                   // path the json file with the associated annotations</span>
+<span class="fc" id="L16">	ArrayList&lt;Annotation&gt; annotations 	= new ArrayList&lt;&gt;();    // list of annotations</span>
+<span class="fc" id="L17">	Annotation selectedAnnotation 		= null;                 // currently selected annotation</span>
+	
+<span class="fc" id="L19">	private float thicknessBasic		= 2;					// border's thickness of an existing unselected annotation</span>
+<span class="fc" id="L20">	private float thicknessActive 		= 4;                    // border's thickness of a selected annotation</span>
+<span class="fc" id="L21">	private Color colorBasic 			= Color.green;            // border's color...</span>
+<span class="fc" id="L22">	private Color colorActive 			= Color.blue;                </span>
+<span class="fc" id="L23">	private String overlapAlert			= &quot;Annotations cannot obscure each other!&quot;;</span>
+	
+<span class="fc" id="L25">	public Model() {</span>
+<span class="fc" id="L26">	}</span>
+	
+<span class="fc" id="L28">	public String getOverlapAlert() { return overlapAlert; }</span>
+	
+<span class="fc" id="L30">	public void setBasicBorderThickness(float bt) { this.thicknessBasic = bt; }</span>
+<span class="fc" id="L31">	public float getBasicBorderThickness() { return this.thicknessBasic; }</span>
+	
+<span class="fc" id="L33">	public void setSelectedBorderThickness(float bt) { this.thicknessActive = bt; }</span>
+<span class="fc" id="L34">	public float getSelectedBorderThickness() { return this.thicknessActive; }	</span>
+	
+<span class="fc" id="L36">	public void setBasicBorderColor(Color bc) { this.colorBasic = bc; }</span>
+<span class="fc" id="L37">	public Color getBasicBorderColor() { return this.colorBasic; }</span>
+	
+<span class="fc" id="L39">	public void setSelectedBorderColor(Color bc) { this.colorActive = bc; }</span>
+<span class="fc" id="L40">	public Color getSelectedBorderColor() { return this.colorActive; }</span>
+		
+	public void setImagePath(String ip) {
+<span class="fc" id="L43">		this.imagePath = ip; </span>
+<span class="fc" id="L44">		this.annotationsPath = this.imagePath.substring(0, imagePath.length() - 4) + &quot;_annotations.json&quot;;</span>
+<span class="fc" id="L45">	}</span>
+	
+<span class="fc" id="L47">	public String getImagePath() { return imagePath; }</span>
+<span class="fc" id="L48">	public String getAnnotationsPath() { return annotationsPath; }</span>
+	
+	public void addAnnotation(Annotation a) {
+<span class="fc" id="L51">		annotations.add(a);</span>
+<span class="fc" id="L52">		writeAnnotationsToFile();</span>
+<span class="fc" id="L53">	}		</span>
+	
+	public void deleteAnnotation(int index) {
+<span class="fc" id="L56">		clearSelectedAnnotation();</span>
+<span class="fc" id="L57">		annotations.remove(index);</span>
+<span class="fc" id="L58">		writeAnnotationsToFile();</span>
+<span class="fc" id="L59">	}</span>
+	
+<span class="fc" id="L61">	public void clearAnnotations() { annotations = new ArrayList&lt;&gt;(); }</span>
+	            
+	@SuppressWarnings(&quot;unchecked&quot;)
+	private void writeAnnotationsToFile() {
+		// create a JSON-array of annotations 
+<span class="fc" id="L66">		JSONArray annotationsArrayJSON = new JSONArray();</span>
+		
+<span class="fc bfc" id="L68" title="All 2 branches covered.">		for(Annotation annotation : annotations) {</span>
+			// create a JSON object of annotation fields
+<span class="fc" id="L70">			JSONObject annotationFieldsJSON = new JSONObject();</span>
+<span class="fc" id="L71">			annotationFieldsJSON.put(&quot;imagePath&quot;, annotation.getImagePath());</span>
+<span class="fc" id="L72">			annotationFieldsJSON.put(&quot;content&quot;, annotation.getContent());</span>
+<span class="fc" id="L73">			annotationFieldsJSON.put(&quot;originX&quot;, annotation.origin.x);</span>
+<span class="fc" id="L74">			annotationFieldsJSON.put(&quot;originY&quot;, annotation.origin.y);</span>
+<span class="fc" id="L75">			annotationFieldsJSON.put(&quot;width&quot;, annotation.width);</span>
+<span class="fc" id="L76">			annotationFieldsJSON.put(&quot;height&quot;, annotation.height);</span>
+			
+			// put all the fields describing the annotation into a JSON object
+<span class="fc" id="L79">			JSONObject annotationInfoJSON = new JSONObject();</span>
+<span class="fc" id="L80">			annotationInfoJSON.put(&quot;annotation&quot;, annotationFieldsJSON);</span>
+			
+			// add the description of this annotation into the JSON-array
+<span class="fc" id="L83">			annotationsArrayJSON.add(annotationInfoJSON);</span>
+		}
+		
+		// rewrite the .json file, containing the information about annotations, in one shot
+<span class="fc" id="L87">		try (FileWriter fileToWrite = new FileWriter(annotationsPath)) {</span>
+<span class="fc" id="L88">			fileToWrite.write(annotationsArrayJSON.toString());</span>
+<span class="fc" id="L89">			fileToWrite.flush();</span>
+<span class="fc" id="L90">		} catch (IOException e) {</span>
+<span class="fc" id="L91">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L93">	}</span>
+	
+<span class="fc" id="L95">	public void setSelectedAnnotation(Annotation a) { selectedAnnotation = a; }</span>
+<span class="fc" id="L96">	public void clearSelectedAnnotation() { selectedAnnotation = null; }</span>
+<span class="fc" id="L97">	public Annotation getSelectedAnnotation() { return selectedAnnotation; }</span>
+	
+	@Override
+	/** 
+	 * get all the annotations from the model
+	 */
+	public Iterator&lt;Annotation&gt; iterator() {
+<span class="fc" id="L104">		return annotations.iterator();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>test (Dec 9, 2020 12:44:48 PM)</div></body></html>

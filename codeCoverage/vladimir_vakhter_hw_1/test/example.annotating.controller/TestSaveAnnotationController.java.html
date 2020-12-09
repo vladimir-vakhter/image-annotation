@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>TestSaveAnnotationController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (Dec 9, 2020 12:44:48 PM)</a> &gt; <a href="../../index.html" class="el_group">vladimir_vakhter_hw_1</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">example.annotating.controller</a> &gt; <span class="el_source">TestSaveAnnotationController.java</span></div><h1>TestSaveAnnotationController.java</h1><pre class="source lang-java linenums">package example.annotating.controller;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.awt.Point;
+
+import org.junit.Test;
+
+import example.annotating.model.Annotation;
+
+<span class="fc" id="L13">public class TestSaveAnnotationController extends AppTestCase {</span>
+	@Test
+	public void testCancel() {
+<span class="fc" id="L16">		SaveAnnotationController sac = new SaveAnnotationController(model, app);</span>
+		
+		// set the selected annotation to the model
+<span class="fc" id="L19">		Annotation a1 = new Annotation(new Point(1, 2), 3, 4);</span>
+<span class="fc" id="L20">		a1.setContent(&quot;test content 1&quot;);</span>
+<span class="fc" id="L21">		a1.setImagePath(&quot;test_image_1.png&quot;);</span>
+		
+<span class="fc" id="L23">		model.addAnnotation(a1);</span>
+		
+<span class="fc" id="L25">		model.setSelectedAnnotation(a1);</span>
+<span class="fc" id="L26">		assertEquals(a1, model.getSelectedAnnotation());</span>
+		
+		// enable controls and fields
+<span class="fc" id="L29">		app.getEnterAnnotationTextArea().setEnabled(true);</span>
+<span class="fc" id="L30">		assertTrue(app.getEnterAnnotationTextArea().isEnabled());</span>
+		
+<span class="fc" id="L32">		app.getSaveButton().setEnabled(true);</span>
+<span class="fc" id="L33">		assertTrue(app.getSaveButton().isEnabled());</span>
+		
+<span class="fc" id="L35">		app.getCancelButton().setEnabled(true);</span>
+<span class="fc" id="L36">		assertTrue(app.getCancelButton().isEnabled());</span>
+		
+<span class="fc" id="L38">		app.getEnterAnnotationTextArea().setText(model.getSelectedAnnotation().getContent());</span>
+<span class="fc" id="L39">		assertEquals(a1.getContent(), app.getEnterAnnotationTextArea().getText());</span>
+		
+		// cancel
+<span class="fc" id="L42">		sac.cancelAnnotation();</span>
+<span class="fc" id="L43">		assertFalse(app.getEnterAnnotationTextArea().isEnabled());</span>
+<span class="fc" id="L44">		assertFalse(app.getSaveButton().isEnabled());</span>
+<span class="fc" id="L45">		assertFalse(app.getCancelButton().isEnabled());</span>
+<span class="fc" id="L46">		assertEquals(&quot;&quot;, app.getEnterAnnotationTextArea().getText());</span>
+<span class="fc" id="L47">	}</span>
+	
+	@Test
+	public void testSave() {
+<span class="fc" id="L51">		SaveAnnotationController sac = new SaveAnnotationController(model, app);</span>
+		
+		// set the selected annotation to the model
+<span class="fc" id="L54">		Annotation a1 = new Annotation(new Point(1, 2), 3, 4);</span>
+<span class="fc" id="L55">		a1.setImagePath(&quot;test_image_1.png&quot;);</span>
+		
+//		model.addAnnotation(a1);
+		
+<span class="fc" id="L59">		assertFalse(model.iterator().hasNext());</span>
+		
+<span class="fc" id="L61">		model.setSelectedAnnotation(a1);</span>
+<span class="fc" id="L62">		assertEquals(a1, model.getSelectedAnnotation());</span>
+		
+		// enable controls and fields
+<span class="fc" id="L65">		app.getEnterAnnotationTextArea().setEnabled(true);</span>
+<span class="fc" id="L66">		assertTrue(app.getEnterAnnotationTextArea().isEnabled());</span>
+		
+<span class="fc" id="L68">		app.getSaveButton().setEnabled(true);</span>
+<span class="fc" id="L69">		assertTrue(app.getSaveButton().isEnabled());</span>
+		
+<span class="fc" id="L71">		app.getCancelButton().setEnabled(true);</span>
+<span class="fc" id="L72">		assertTrue(app.getCancelButton().isEnabled());</span>
+		
+<span class="fc" id="L74">		app.getEnterAnnotationTextArea().setText(&quot;test&quot;);</span>
+<span class="fc" id="L75">		assertEquals(&quot;test&quot;, app.getEnterAnnotationTextArea().getText());</span>
+<span class="fc" id="L76">		app.getDisplayAnnotationTextArea().setText(&quot;&quot;);</span>
+<span class="fc" id="L77">		assertEquals(&quot;&quot;, app.getDisplayAnnotationTextArea().getText());</span>
+		
+<span class="fc" id="L79">		assertFalse(model.iterator().hasNext());</span>
+		
+<span class="fc" id="L81">		sac.save();</span>
+<span class="fc" id="L82">		assertEquals(&quot;test&quot;, model.getSelectedAnnotation().getContent());</span>
+<span class="fc" id="L83">		assertEquals(&quot;&quot;, app.getEnterAnnotationTextArea().getText());</span>
+<span class="fc" id="L84">		assertEquals(model.getSelectedAnnotation().getContent(), app.getDisplayAnnotationTextArea().getText());</span>
+		
+<span class="fc" id="L86">		assertTrue(model.iterator().hasNext());</span>
+		
+<span class="fc" id="L88">		assertFalse(app.getEnterAnnotationTextArea().isEnabled());</span>
+<span class="fc" id="L89">		assertFalse(app.getSaveButton().isEnabled());</span>
+<span class="fc" id="L90">		assertFalse(app.getCancelButton().isEnabled());</span>
+<span class="fc" id="L91">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>test (Dec 9, 2020 12:44:48 PM)</div></body></html>

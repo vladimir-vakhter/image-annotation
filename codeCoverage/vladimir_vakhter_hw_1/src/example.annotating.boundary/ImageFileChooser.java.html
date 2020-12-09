@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ImageFileChooser.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (Dec 9, 2020 12:44:48 PM)</a> &gt; <a href="../../index.html" class="el_group">vladimir_vakhter_hw_1</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">example.annotating.boundary</a> &gt; <span class="el_source">ImageFileChooser.java</span></div><h1>ImageFileChooser.java</h1><pre class="source lang-java linenums">package example.annotating.boundary;
+
+import java.io.File;
+
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import example.annotating.model.Model;
+
+@SuppressWarnings(&quot;serial&quot;)
+public class ImageFileChooser extends JFileChooser {
+	Model model;
+	
+<span class="fc" id="L14">	String dialogTitle = &quot;Load New Image&quot;;</span>
+<span class="fc" id="L15">	String defaultPath = &quot;.\\images&quot;;</span>
+<span class="fc" id="L16">	FileNameExtensionFilter filter = new FileNameExtensionFilter(&quot;JPG, PNG, GIF&quot;, &quot;jpg&quot;, &quot;JPG&quot;,</span>
+<span class="fc" id="L17">			 													 &quot;png&quot;, &quot;PNG&quot;, &quot;gif&quot;, &quot;GIF&quot;);</span>
+	
+<span class="fc" id="L19">	public ImageFileChooser(Model m) {</span>
+<span class="fc" id="L20">		this.model = m;</span>
+<span class="fc" id="L21">		this.setDialogTitle(dialogTitle);</span>
+<span class="fc" id="L22">		this.setCurrentDirectory(new File(defaultPath));</span>
+<span class="fc" id="L23">		this.setFileSelectionMode(JFileChooser.FILES_ONLY);</span>
+<span class="fc" id="L24">		this.setFileFilter(filter);</span>
+<span class="fc" id="L25">		this.setAcceptAllFileFilterUsed(false);</span>
+<span class="fc" id="L26">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>test (Dec 9, 2020 12:44:48 PM)</div></body></html>

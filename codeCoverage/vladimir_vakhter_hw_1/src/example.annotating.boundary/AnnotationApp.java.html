@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AnnotationApp.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (Dec 9, 2020 12:44:48 PM)</a> &gt; <a href="../../index.html" class="el_group">vladimir_vakhter_hw_1</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">example.annotating.boundary</a> &gt; <span class="el_source">AnnotationApp.java</span></div><h1>AnnotationApp.java</h1><pre class="source lang-java linenums">package example.annotating.boundary;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.net.MalformedURLException;
+
+import javax.swing.BorderFactory;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTextArea;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+
+import example.annotating.controller.DeleteAnnotationController;
+import example.annotating.controller.LoadImageController;
+import example.annotating.controller.SaveAnnotationController;
+import example.annotating.model.Model;
+import java.awt.SystemColor;
+
+@SuppressWarnings(&quot;serial&quot;)
+public class AnnotationApp extends JFrame {
+
+	private JPanel				contentPane;
+	Model 						model;
+	ImagePanel 					panel;				
+	JButton 					btnLoad, btnDelete, btnSave, btnCancel;
+	
+	JTextArea 					displayAnnotationTextArea;
+	JTextArea 					enterAnnotationTextArea;
+	JTextArea 					textAreaOverlapAlert;
+	
+	JLabel 						annotationDisplayLabel;
+	JLabel 						annotationEnterLabel;
+	
+	ImageFileChooser			loadFileChooser;
+
+	private JSeparator 			separator;
+	private JSeparator 			separator_1;
+	
+	private JScrollPane 		scrollPaneEnterAnnotationText;
+	private JScrollPane 		scrollPaneDisplayAnnotationText;
+
+	// access all the actionable elements
+<span class="fc" id="L57">	public ImagePanel getImagePanel() { return panel; }</span>
+	
+<span class="fc" id="L59">	public JButton getDeleteButton() { return btnDelete; }</span>
+<span class="fc" id="L60">	public JButton getSaveButton() { return btnSave; }</span>
+<span class="fc" id="L61">	public JButton getCancelButton() { return btnCancel; }</span>
+	
+<span class="fc" id="L63">	public JTextArea getDisplayAnnotationTextArea() { return displayAnnotationTextArea; }</span>
+<span class="fc" id="L64">	public JTextArea  getEnterAnnotationTextArea() { return enterAnnotationTextArea; }</span>
+	
+<span class="fc" id="L66">	public ImageFileChooser	getLoadFileChooser() { return loadFileChooser; }</span>
+	
+<span class="fc" id="L68">	public void setOverlapAlert() { textAreaOverlapAlert.setText(model.getOverlapAlert()); }</span>
+<span class="fc" id="L69">	public void clearOverlapAlert() { textAreaOverlapAlert.setText(&quot;&quot;); };</span>
+<span class="fc" id="L70">	public JTextArea getOverlapAlert() { return textAreaOverlapAlert; }</span>
+	
+	/**
+	 * Create the frame.
+	 */
+	public AnnotationApp(Model m) {
+<span class="fc" id="L76">		super();</span>
+<span class="fc" id="L77">		setResizable(false);</span>
+<span class="fc" id="L78">		this.model = m;</span>
+<span class="fc" id="L79">		setTitle(&quot;Annotation Application&quot;);</span>
+		// tell the app window that we will be responsible for closing application 
+<span class="fc" id="L81">		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);</span>
+<span class="fc" id="L82">		setBounds(100, 100, 928, 582);</span>
+<span class="fc" id="L83">		this.setLocationRelativeTo(null);</span>
+		
+<span class="fc" id="L85">		contentPane = new JPanel();</span>
+<span class="fc" id="L86">		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));</span>
+<span class="fc" id="L87">		setContentPane(contentPane);</span>
+		
+<span class="fc" id="L89">		panel = new ImagePanel(this.model, this);</span>
+<span class="fc" id="L90">		panel.setPreferredSize(new Dimension(640, 480));</span>
+<span class="fc" id="L91">		Border blackline = BorderFactory.createLineBorder(Color.black);</span>
+<span class="fc" id="L92">		panel.setBorder(blackline);</span>
+		
+<span class="fc" id="L94">		annotationDisplayLabel = new JLabel(&quot;Annotation&quot;);</span>
+<span class="fc" id="L95">		annotationDisplayLabel.setFont(new Font(&quot;Tahoma&quot;, Font.BOLD, 14));</span>
+		
+<span class="fc" id="L97">		loadFileChooser = new ImageFileChooser(this.model);</span>
+		
+<span class="fc" id="L99">		btnLoad = new JButton(&quot;Load Image&quot;);</span>
+<span class="fc" id="L100">		btnLoad.addActionListener(new ActionListener() {</span>
+			@Override
+			public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L103">				new LoadImageController(model, AnnotationApp.this).load();</span>
+<span class="nc" id="L104">				File f = new File(model.getImagePath());</span>
+				try {
+					@SuppressWarnings(&quot;deprecation&quot;)
+<span class="nc" id="L107">					Image image = new ImageIcon(f.toURL()).getImage();</span>
+<span class="nc" id="L108">					panel.setImage(image);</span>
+<span class="nc" id="L109">				} catch (MalformedURLException e1) {</span>
+<span class="nc" id="L110">					e1.printStackTrace();</span>
+				}	
+<span class="nc" id="L112">			}</span>
+		});
+		
+<span class="fc" id="L115">		btnDelete = new JButton(&quot;Delete&quot;);</span>
+<span class="fc" id="L116">		btnDelete.setEnabled(false);</span>
+<span class="fc" id="L117">		btnDelete.addActionListener(new ActionListener() {</span>
+			@Override
+			public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L120">				new DeleteAnnotationController(model, AnnotationApp.this).delete();	</span>
+<span class="nc" id="L121">				repaint();</span>
+<span class="nc" id="L122">			}			</span>
+		});		
+		
+<span class="fc" id="L125">		btnSave = new JButton(&quot;Save&quot;);		</span>
+<span class="fc" id="L126">		btnSave.setEnabled(false);</span>
+<span class="fc" id="L127">		btnSave.addActionListener(new ActionListener() {</span>
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+<span class="nc" id="L130">				new SaveAnnotationController(model, AnnotationApp.this).save();</span>
+<span class="nc" id="L131">				repaint();</span>
+<span class="nc" id="L132">			}</span>
+		});
+		
+<span class="fc" id="L135">		btnCancel = new JButton(&quot;Cancel&quot;);</span>
+<span class="fc" id="L136">		btnCancel.setEnabled(false);</span>
+<span class="fc" id="L137">		btnCancel.addActionListener(new ActionListener() {</span>
+			@Override
+			public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L140">				new SaveAnnotationController(model, AnnotationApp.this).cancelAnnotation();</span>
+<span class="nc" id="L141">				repaint();</span>
+<span class="nc" id="L142">			}</span>
+		});
+		
+<span class="fc" id="L145">		annotationEnterLabel = new JLabel(&quot;Enter Annotation Here&quot;);</span>
+<span class="fc" id="L146">		annotationEnterLabel.setFont(new Font(&quot;Tahoma&quot;, Font.BOLD, 14));</span>
+		
+<span class="fc" id="L148">		separator = new JSeparator();</span>
+<span class="fc" id="L149">		separator.setForeground(Color.LIGHT_GRAY);</span>
+		
+<span class="fc" id="L151">		separator_1 = new JSeparator();</span>
+<span class="fc" id="L152">		separator_1.setForeground(Color.LIGHT_GRAY);</span>
+		
+<span class="fc" id="L154">		JLabel lblNewLabel = new JLabel(&quot;Image &quot;);</span>
+<span class="fc" id="L155">		lblNewLabel.setFont(new Font(&quot;Tahoma&quot;, Font.BOLD, 14));</span>
+		
+<span class="fc" id="L157">		scrollPaneEnterAnnotationText = new JScrollPane();</span>
+		
+<span class="fc" id="L159">		scrollPaneDisplayAnnotationText = new JScrollPane();</span>
+		
+<span class="fc" id="L161">		textAreaOverlapAlert = new JTextArea();</span>
+<span class="fc" id="L162">		textAreaOverlapAlert.setFont(new Font(&quot;Monospaced&quot;, Font.BOLD, 15));</span>
+<span class="fc" id="L163">		textAreaOverlapAlert.setForeground(Color.RED);</span>
+<span class="fc" id="L164">		textAreaOverlapAlert.setBackground(SystemColor.menu);</span>
+<span class="fc" id="L165">		textAreaOverlapAlert.setEditable(false);</span>
+		
+<span class="fc" id="L167">		GroupLayout gl_contentPane = new GroupLayout(contentPane);</span>
+<span class="fc" id="L168">		gl_contentPane.setHorizontalGroup(</span>
+<span class="fc" id="L169">			gl_contentPane.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L170">				.addGroup(gl_contentPane.createSequentialGroup()</span>
+<span class="fc" id="L171">					.addContainerGap()</span>
+<span class="fc" id="L172">					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L173">						.addGroup(gl_contentPane.createSequentialGroup()</span>
+<span class="fc" id="L174">							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)</span>
+<span class="fc" id="L175">								.addComponent(lblNewLabel, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L176">								.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+<span class="fc" id="L177">							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L178">								.addGroup(gl_contentPane.createSequentialGroup()</span>
+<span class="fc" id="L179">									.addPreferredGap(ComponentPlacement.RELATED, 16, Short.MAX_VALUE)</span>
+<span class="fc" id="L180">									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L181">										.addComponent(separator_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)</span>
+<span class="fc" id="L182">										.addComponent(separator, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)</span>
+<span class="fc" id="L183">										.addGroup(gl_contentPane.createSequentialGroup()</span>
+<span class="fc" id="L184">											.addComponent(btnSave, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L185">											.addPreferredGap(ComponentPlacement.UNRELATED)</span>
+<span class="fc" id="L186">											.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L187">										.addComponent(scrollPaneEnterAnnotationText)</span>
+<span class="fc" id="L188">										.addComponent(annotationDisplayLabel, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L189">										.addComponent(scrollPaneDisplayAnnotationText, GroupLayout.PREFERRED_SIZE, 228, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L190">										.addComponent(annotationEnterLabel, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L191">										.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)))</span>
+<span class="fc" id="L192">								.addGroup(gl_contentPane.createSequentialGroup()</span>
+<span class="fc" id="L193">									.addGap(18)</span>
+<span class="fc" id="L194">									.addComponent(btnLoad, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)))</span>
+<span class="fc" id="L195">							.addContainerGap())</span>
+<span class="fc" id="L196">						.addGroup(gl_contentPane.createSequentialGroup()</span>
+<span class="fc" id="L197">							.addComponent(textAreaOverlapAlert)</span>
+<span class="fc" id="L198">							.addGap(264))))</span>
+		);
+<span class="fc" id="L200">		gl_contentPane.setVerticalGroup(</span>
+<span class="fc" id="L201">			gl_contentPane.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L202">				.addGroup(gl_contentPane.createSequentialGroup()</span>
+<span class="fc" id="L203">					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)</span>
+<span class="fc" id="L204">						.addComponent(lblNewLabel)</span>
+<span class="fc" id="L205">						.addComponent(annotationDisplayLabel))</span>
+<span class="fc" id="L206">					.addPreferredGap(ComponentPlacement.RELATED)</span>
+<span class="fc" id="L207">					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)</span>
+<span class="fc" id="L208">						.addGroup(gl_contentPane.createSequentialGroup()</span>
+<span class="fc" id="L209">							.addComponent(scrollPaneDisplayAnnotationText, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L210">							.addPreferredGap(ComponentPlacement.RELATED)</span>
+<span class="fc" id="L211">							.addComponent(btnDelete)</span>
+<span class="fc" id="L212">							.addGap(10)</span>
+<span class="fc" id="L213">							.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L214">							.addGap(18)</span>
+<span class="fc" id="L215">							.addComponent(annotationEnterLabel)</span>
+<span class="fc" id="L216">							.addGap(8)</span>
+<span class="fc" id="L217">							.addComponent(scrollPaneEnterAnnotationText, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L218">							.addPreferredGap(ComponentPlacement.RELATED)</span>
+<span class="fc" id="L219">							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)</span>
+<span class="fc" id="L220">								.addComponent(btnSave)</span>
+<span class="fc" id="L221">								.addComponent(btnCancel))</span>
+<span class="fc" id="L222">							.addGap(12)</span>
+<span class="fc" id="L223">							.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L224">							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L225">							.addComponent(btnLoad))</span>
+<span class="fc" id="L226">						.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L227">					.addPreferredGap(ComponentPlacement.RELATED)</span>
+<span class="fc" id="L228">					.addComponent(textAreaOverlapAlert, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L229">					.addContainerGap(21, Short.MAX_VALUE))</span>
+		);
+		
+<span class="fc" id="L232">		displayAnnotationTextArea = new JTextArea(); </span>
+<span class="fc" id="L233">		scrollPaneDisplayAnnotationText.setViewportView(displayAnnotationTextArea);</span>
+<span class="fc" id="L234">		displayAnnotationTextArea.setLineWrap(true);</span>
+<span class="fc" id="L235">		displayAnnotationTextArea.setWrapStyleWord(true);</span>
+<span class="fc" id="L236">		displayAnnotationTextArea.setEditable(false);</span>
+<span class="fc" id="L237">		displayAnnotationTextArea.setText(&quot;&quot;);</span>
+		
+<span class="fc" id="L239">		enterAnnotationTextArea = new JTextArea();</span>
+<span class="fc" id="L240">		scrollPaneEnterAnnotationText.setViewportView(enterAnnotationTextArea);</span>
+<span class="fc" id="L241">		enterAnnotationTextArea.setEnabled(false);</span>
+<span class="fc" id="L242">		enterAnnotationTextArea.setLineWrap(true);</span>
+<span class="fc" id="L243">		enterAnnotationTextArea.setWrapStyleWord(true);</span>
+		
+<span class="fc" id="L245">		contentPane.setLayout(gl_contentPane);</span>
+<span class="fc" id="L246">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>test (Dec 9, 2020 12:44:48 PM)</div></body></html>

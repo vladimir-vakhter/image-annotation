@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>SaveAnnotationController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (Dec 9, 2020 12:44:48 PM)</a> &gt; <a href="../../index.html" class="el_group">vladimir_vakhter_hw_1</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">example.annotating.controller</a> &gt; <span class="el_source">SaveAnnotationController.java</span></div><h1>SaveAnnotationController.java</h1><pre class="source lang-java linenums">package example.annotating.controller;
+
+import example.annotating.boundary.AnnotationApp;
+import example.annotating.model.Model;
+
+public class SaveAnnotationController {
+	Model 			model;
+	AnnotationApp 	app;
+	
+<span class="fc" id="L10">	public SaveAnnotationController(Model m, AnnotationApp app) {</span>
+<span class="fc" id="L11">		this.model = m;</span>
+<span class="fc" id="L12">		this.app = app;</span>
+<span class="fc" id="L13">	}</span>
+
+	public void cancelAnnotation() {
+<span class="fc" id="L16">		model.clearSelectedAnnotation();</span>
+<span class="fc" id="L17">		app.getEnterAnnotationTextArea().setEnabled(false);</span>
+<span class="fc" id="L18">		app.getSaveButton().setEnabled(false);</span>
+<span class="fc" id="L19">		app.getCancelButton().setEnabled(false);</span>
+<span class="fc" id="L20">		app.getEnterAnnotationTextArea().setText(&quot;&quot;);</span>
+<span class="fc" id="L21">	}</span>
+	
+	public void save() {
+		// add content
+<span class="fc" id="L25">		String annotationContent = app.getEnterAnnotationTextArea().getText();</span>
+<span class="fc" id="L26">		model.getSelectedAnnotation().setContent(annotationContent);</span>
+<span class="fc" id="L27">		app.getEnterAnnotationTextArea().setText(&quot;&quot;);</span>
+<span class="fc" id="L28">		app.getDisplayAnnotationTextArea().setText(model.getSelectedAnnotation().getContent());</span>
+<span class="fc" id="L29">		model.addAnnotation(model.getSelectedAnnotation());</span>
+<span class="fc" id="L30">		app.getEnterAnnotationTextArea().setEnabled(false);</span>
+<span class="fc" id="L31">		app.getSaveButton().setEnabled(false);</span>
+<span class="fc" id="L32">		app.getCancelButton().setEnabled(false);</span>
+<span class="fc" id="L33">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>test (Dec 9, 2020 12:44:48 PM)</div></body></html>

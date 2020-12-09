@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>QuitApplicationController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (Dec 9, 2020 12:44:48 PM)</a> &gt; <a href="../../index.html" class="el_group">vladimir_vakhter_hw_1</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">example.annotating.controller</a> &gt; <span class="el_source">QuitApplicationController.java</span></div><h1>QuitApplicationController.java</h1><pre class="source lang-java linenums">package example.annotating.controller;
+
+import javax.swing.JOptionPane;
+
+import example.annotating.boundary.AnnotationApp;
+
+/**
+ * Confirms the request to exist the application.
+ */
+public class QuitApplicationController {
+
+	AnnotationApp app;
+
+<span class="nc" id="L14">	public QuitApplicationController(AnnotationApp app) {</span>
+<span class="nc" id="L15">		this.app = app;</span>
+<span class="nc" id="L16">	}</span>
+
+	public void quit() {
+<span class="nc" id="L19">		int c = JOptionPane.showConfirmDialog (app, &quot;Do you want to quit?&quot;);</span>
+
+<span class="nc bnc" id="L21" title="All 2 branches missed.">		if (c == JOptionPane.OK_OPTION) {</span>
+<span class="nc" id="L22">			app.setVisible(false);</span>
+<span class="nc" id="L23">			app.dispose();</span>
+		}
+<span class="nc" id="L25">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>test (Dec 9, 2020 12:44:48 PM)</div></body></html>

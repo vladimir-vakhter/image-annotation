@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>MouseEventTestCase.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (Dec 9, 2020 12:44:48 PM)</a> &gt; <a href="../../index.html" class="el_group">vladimir_vakhter_hw_1</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">generic</a> &gt; <span class="el_source">MouseEventTestCase.java</span></div><h1>MouseEventTestCase.java</h1><pre class="source lang-java linenums">package generic;
+
+import java.awt.Container;
+import java.awt.event.MouseEvent;
+
+<span class="fc" id="L6">public class MouseEventTestCase {</span>
+	
+	public MouseEvent createPressed (Container view, int x, int y) {
+<span class="fc" id="L9">		MouseEvent me = new MouseEvent(view, MouseEvent.MOUSE_PRESSED, </span>
+<span class="fc" id="L10">				System.currentTimeMillis(), 0, x, y, 0, false);</span>
+<span class="fc" id="L11">		return me;</span>
+	}
+	
+	public MouseEvent createDragged (Container view, int x, int y) {
+<span class="fc" id="L15">		MouseEvent me = new MouseEvent(view, MouseEvent.MOUSE_DRAGGED, </span>
+<span class="fc" id="L16">				System.currentTimeMillis(), 0, x, y, 0, false);</span>
+<span class="fc" id="L17">		return me;</span>
+	}
+	
+	public MouseEvent createRightClick  (Container view, int x, int y) {
+<span class="nc" id="L21">		MouseEvent me = new MouseEvent(view, MouseEvent.MOUSE_PRESSED, </span>
+<span class="nc" id="L22">				System.currentTimeMillis(), 0, x, y, 0, true);</span>
+<span class="nc" id="L23">		return me;</span>
+	}
+	
+	public MouseEvent createReleased  (Container view, int x, int y) {
+<span class="fc" id="L27">		MouseEvent me = new MouseEvent(view, MouseEvent.MOUSE_RELEASED, </span>
+<span class="fc" id="L28">				System.currentTimeMillis(), 0, x, y, 0, false);</span>
+<span class="fc" id="L29">		return me;</span>
+	}
+	
+	public MouseEvent createClicked  (Container view, int x, int y) {
+<span class="nc" id="L33">		MouseEvent me = new MouseEvent(view, MouseEvent.MOUSE_CLICKED, </span>
+<span class="nc" id="L34">				System.currentTimeMillis(), 0, x, y, 0, false);</span>
+<span class="nc" id="L35">		return me;</span>
+	}
+	
+	public MouseEvent createDoubleClicked  (Container view, int x, int y) {
+<span class="nc" id="L39">		MouseEvent me = new MouseEvent(view, MouseEvent.MOUSE_CLICKED, </span>
+<span class="nc" id="L40">				System.currentTimeMillis(), 0, x, y, 0, false);</span>
+<span class="nc" id="L41">		return me;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>test (Dec 9, 2020 12:44:48 PM)</div></body></html>

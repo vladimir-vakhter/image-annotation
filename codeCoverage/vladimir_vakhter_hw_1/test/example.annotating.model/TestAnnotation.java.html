@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>TestAnnotation.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (Dec 9, 2020 12:44:48 PM)</a> &gt; <a href="../../index.html" class="el_group">vladimir_vakhter_hw_1</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">example.annotating.model</a> &gt; <span class="el_source">TestAnnotation.java</span></div><h1>TestAnnotation.java</h1><pre class="source lang-java linenums">package example.annotating.model;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import java.awt.Point;
+
+<span class="fc" id="L9">class TestAnnotation {</span>
+
+	@Test
+	void testConstruction() {
+<span class="fc" id="L13">		Annotation annotation = new Annotation(new Point(3,4), 1, 2);</span>
+<span class="fc" id="L14">		assertEquals(1, annotation.width);</span>
+<span class="fc" id="L15">		assertEquals(2, annotation.height);</span>
+<span class="fc" id="L16">		assertEquals(3, annotation.origin.x);</span>
+<span class="fc" id="L17">		assertEquals(4, annotation.origin.y);</span>
+<span class="fc" id="L18">	}</span>
+	
+	@Test
+	void testSetGetImagePath() {
+<span class="fc" id="L22">		Annotation annotation = new Annotation(new Point(3,4), 1, 2);</span>
+<span class="fc" id="L23">		annotation.setImagePath(&quot;test&quot;);</span>
+<span class="fc" id="L24">		assertEquals(&quot;test&quot;, annotation.getImagePath());</span>
+<span class="fc" id="L25">	}</span>
+	
+	@Test
+	void testSetGetContent() {
+<span class="fc" id="L29">		Annotation annotation = new Annotation(new Point(3,4), 1, 2);</span>
+<span class="fc" id="L30">		annotation.setContent(&quot;test&quot;);</span>
+<span class="fc" id="L31">		assertEquals(&quot;test&quot;, annotation.getContent());</span>
+<span class="fc" id="L32">	}	</span>
+	
+	@Test
+	void testContains() {
+<span class="fc" id="L36">		Annotation a = new Annotation(new Point(1,1), 10, 7);</span>
+<span class="fc" id="L37">		assertTrue(a.contains(new Point(5, 3)));</span>
+<span class="fc" id="L38">		assertFalse(a.contains(new Point(11,1)));</span>
+<span class="fc" id="L39">		assertFalse(a.contains(new Point(1,8)));</span>
+<span class="fc" id="L40">	}</span>
+	
+	@Test
+	void testEquals() {
+<span class="fc" id="L44">		Annotation a1 = new Annotation(new Point(1,1), 10, 7);</span>
+<span class="fc" id="L45">		a1.setImagePath(&quot;test_path&quot;);</span>
+<span class="fc" id="L46">		a1.setContent(&quot;test_content&quot;);</span>
+<span class="fc" id="L47">		assertFalse(a1.equals(null));	</span>
+<span class="fc" id="L48">		assertFalse(a1.equals(1));</span>
+		
+<span class="fc" id="L50">		Annotation a2 = new Annotation(new Point(1,1), 10, 7);</span>
+<span class="fc" id="L51">		a2.setImagePath(&quot;test_path&quot;);</span>
+<span class="fc" id="L52">		a2.setContent(&quot;test_content&quot;);</span>
+<span class="fc" id="L53">		assertTrue(a1.equals(a2));</span>
+		
+<span class="fc" id="L55">		Annotation a3 = new Annotation(new Point(1,1), 10, 7);</span>
+<span class="fc" id="L56">		a3.setImagePath(&quot;test_path1&quot;);</span>
+<span class="fc" id="L57">		a3.setContent(&quot;test_content&quot;);</span>
+<span class="fc" id="L58">		assertFalse(a3.equals(a1));</span>
+		
+<span class="fc" id="L60">		a3.setImagePath(&quot;test_path&quot;);</span>
+<span class="fc" id="L61">		a3.setContent(&quot;test_content1&quot;);</span>
+<span class="fc" id="L62">		assertFalse(a3.equals(a1));</span>
+		
+<span class="fc" id="L64">		Annotation a4 = new Annotation(new Point(2,1), 10, 7);</span>
+<span class="fc" id="L65">		a4.setImagePath(&quot;test_path&quot;);</span>
+<span class="fc" id="L66">		a4.setContent(&quot;test_content&quot;);</span>
+<span class="fc" id="L67">		assertFalse(a4.equals(a1));</span>
+		
+<span class="fc" id="L69">		Annotation a5 = new Annotation(new Point(1,2), 10, 7);</span>
+<span class="fc" id="L70">		a5.setImagePath(&quot;test_path&quot;);</span>
+<span class="fc" id="L71">		a5.setContent(&quot;test_content&quot;);</span>
+<span class="fc" id="L72">		assertFalse(a5.equals(a1));</span>
+		
+<span class="fc" id="L74">		Annotation a6 = new Annotation(new Point(1,1), 11, 7);</span>
+<span class="fc" id="L75">		a6.setImagePath(&quot;test_path&quot;);</span>
+<span class="fc" id="L76">		a6.setContent(&quot;test_content&quot;);</span>
+<span class="fc" id="L77">		assertFalse(a6.equals(a1));</span>
+		
+<span class="fc" id="L79">		Annotation a7 = new Annotation(new Point(1,1), 10, 8);</span>
+<span class="fc" id="L80">		a7.setImagePath(&quot;test_path&quot;);</span>
+<span class="fc" id="L81">		a7.setContent(&quot;test_content&quot;);</span>
+<span class="fc" id="L82">		assertFalse(a7.equals(a1));		</span>
+<span class="fc" id="L83">	}		</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>test (Dec 9, 2020 12:44:48 PM)</div></body></html>

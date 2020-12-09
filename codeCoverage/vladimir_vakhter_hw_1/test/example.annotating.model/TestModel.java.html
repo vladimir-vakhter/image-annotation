@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>TestModel.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (Dec 9, 2020 12:44:48 PM)</a> &gt; <a href="../../index.html" class="el_group">vladimir_vakhter_hw_1</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">example.annotating.model</a> &gt; <span class="el_source">TestModel.java</span></div><h1>TestModel.java</h1><pre class="source lang-java linenums">package example.annotating.model;
+
+import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.awt.Color;
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+<span class="fc" id="L11">public class TestModel extends ModelTestCase {</span>
+
+	@Test
+	public void testSetGetImagePath() {
+<span class="fc" id="L15">		model.setImagePath(&quot;test.jpg&quot;);</span>
+<span class="fc" id="L16">		assertEquals(&quot;test.jpg&quot;, model.getImagePath());</span>
+<span class="fc" id="L17">		assertEquals(&quot;test_annotations.json&quot;, model.getAnnotationsPath());</span>
+<span class="fc" id="L18">	}</span>
+	
+	@Test
+	public void testAddGetAnnotation() {
+<span class="fc" id="L22">		model.addAnnotation(new Annotation(new Point(1, 2), 3, 4));</span>
+<span class="fc" id="L23">		model.addAnnotation(new Annotation(new Point(5, 6), 7, 8));</span>
+		
+<span class="fc" id="L25">		Iterator&lt;Annotation&gt; it = model.iterator();</span>
+<span class="fc" id="L26">		int i = 0;</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">		while(it.hasNext()) {</span>
+<span class="fc" id="L28">		    i++;</span>
+<span class="fc" id="L29">		    it.next();</span>
+		}
+<span class="fc" id="L31">		assertEquals(2, i);</span>
+<span class="fc" id="L32">	}</span>
+	
+	@Test
+	public void testSetGetClearAnnotation() {
+<span class="fc" id="L36">		Annotation a = new Annotation(new Point(1, 2), 3, 4); </span>
+<span class="fc" id="L37">		model.setSelectedAnnotation(a);</span>
+<span class="fc" id="L38">		assertEquals(a, model.getSelectedAnnotation());</span>
+<span class="fc" id="L39">		model.clearSelectedAnnotation();</span>
+<span class="fc" id="L40">		assertEquals(null, model.getSelectedAnnotation());</span>
+<span class="fc" id="L41">	}</span>
+	
+	@Test
+	public void testSetGetBasicBorderThickness() {
+<span class="fc" id="L45">		model.setBasicBorderThickness(4);</span>
+<span class="fc" id="L46">		assertEquals(4, model.getBasicBorderThickness());</span>
+<span class="fc" id="L47">	}</span>
+
+	@Test
+	public void testSetGetActiveBorderThickness() {
+<span class="fc" id="L51">		model.setSelectedBorderThickness(4);</span>
+<span class="fc" id="L52">		assertEquals(4, model.getSelectedBorderThickness());</span>
+<span class="fc" id="L53">	}</span>
+
+	@Test
+	public void testSetGetBasicBorderColor() {
+<span class="fc" id="L57">		model.setBasicBorderColor(Color.black);</span>
+<span class="fc" id="L58">		assertEquals(Color.black, model.getBasicBorderColor());</span>
+<span class="fc" id="L59">	}</span>
+
+	@Test
+	public void testSetGetActiveBorderColor() {
+<span class="fc" id="L63">		model.setSelectedBorderColor(Color.black);</span>
+<span class="fc" id="L64">		assertEquals(Color.black, model.getSelectedBorderColor());</span>
+<span class="fc" id="L65">	}</span>
+	
+	@Test
+	public void testClearAnnotations() {
+<span class="fc" id="L69">		model.addAnnotation(new Annotation(new Point(1, 2), 3, 4));</span>
+<span class="fc" id="L70">		model.addAnnotation(new Annotation(new Point(5, 6), 7, 8));</span>
+		
+<span class="fc" id="L72">		Iterator&lt;Annotation&gt; it = model.iterator();</span>
+<span class="fc" id="L73">		int i = 0;</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">		while(it.hasNext()) {</span>
+<span class="fc" id="L75">		    i++;</span>
+<span class="fc" id="L76">		    it.next();</span>
+		}
+<span class="fc" id="L78">		assertEquals(2, i);</span>
+		
+<span class="fc" id="L80">		model.clearAnnotations();</span>
+<span class="fc" id="L81">		assertEquals(false, it.hasNext());</span>
+<span class="fc" id="L82">	}</span>
+	
+	@Test
+	public void testDeleteAnnotation() {
+<span class="fc" id="L86">		assertEquals(null, model.getSelectedAnnotation());</span>
+<span class="fc" id="L87">		model.addAnnotation(new Annotation(new Point(1, 2), 3, 4));</span>
+<span class="fc" id="L88">		model.addAnnotation(new Annotation(new Point(5, 6), 7, 8));</span>
+<span class="fc" id="L89">		model.addAnnotation(new Annotation(new Point(7, 3), 5, 6));</span>
+		
+<span class="fc" id="L91">		Iterator&lt;Annotation&gt; it = model.iterator();</span>
+<span class="fc" id="L92">		int i = 0;</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">		while(it.hasNext()) {</span>
+<span class="fc" id="L94">		    i++;</span>
+<span class="fc" id="L95">		    it.next();</span>
+		}
+<span class="fc" id="L97">		assertEquals(3, i);</span>
+		
+<span class="fc" id="L99">		Annotation a = new Annotation(new Point(1, 2), 3, 4);</span>
+<span class="fc" id="L100">		model.setSelectedAnnotation(a);</span>
+<span class="fc" id="L101">		assertEquals(a, model.getSelectedAnnotation());</span>
+
+<span class="fc" id="L103">		ArrayList&lt;Annotation&gt; annotations_1 = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L104">		annotations_1.add(new Annotation(new Point(5, 6), 7, 8));</span>
+<span class="fc" id="L105">		annotations_1.add(new Annotation(new Point(7, 3), 5, 6));</span>
+		
+<span class="fc" id="L107">		model.deleteAnnotation(0);</span>
+
+<span class="fc" id="L109">		ArrayList&lt;Annotation&gt; annotations_2 = new ArrayList&lt;&gt;();</span>
+		
+<span class="fc" id="L111">		it = model.iterator();</span>
+<span class="fc" id="L112">		i = 0;</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">		while(it.hasNext()) {</span>
+<span class="fc" id="L114">		    i++;</span>
+<span class="fc" id="L115">		    annotations_2.add(it.next());</span>
+		}
+<span class="fc" id="L117">		assertEquals(2, i);</span>
+<span class="fc" id="L118">		assertEquals(annotations_1, annotations_2);</span>
+<span class="fc" id="L119">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>test (Dec 9, 2020 12:44:48 PM)</div></body></html>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ImagePanel.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (Dec 9, 2020 12:44:48 PM)</a> &gt; <a href="../../index.html" class="el_group">vladimir_vakhter_hw_1</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">example.annotating.boundary</a> &gt; <span class="el_source">ImagePanel.java</span></div><h1>ImagePanel.java</h1><pre class="source lang-java linenums">package example.annotating.boundary;
+
+import java.awt.BasicStroke;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+
+import javax.swing.JPanel;
+
+import example.annotating.controller.CreateSelectAnnotationController;
+import example.annotating.model.Annotation;
+import example.annotating.model.Model;
+
+/**
+ * The Java GUI entity for visual display that supports:
+ * 	1. mouse interaction by registering mouse listeners
+ * 	2. loading an image
+ */
+
+@SuppressWarnings(&quot;serial&quot;)
+public class ImagePanel extends JPanel {
+<span class="fc" id="L22">	Image 			image = null;	// the image to be annotated</span>
+<span class="fc" id="L23">	Model 			model = null;</span>
+<span class="fc" id="L24">	AnnotationApp 	app = null;</span>
+	
+<span class="fc" id="L26">	public ImagePanel(Model m, AnnotationApp app) {</span>
+<span class="fc" id="L27">		this.model 	= m;</span>
+<span class="fc" id="L28">		this.app	= app;</span>
+<span class="fc" id="L29">		CreateSelectAnnotationController control = new CreateSelectAnnotationController(model, this.app);</span>
+<span class="fc" id="L30">		this.addMouseListener(control);</span>
+<span class="fc" id="L31">		this.addMouseMotionListener(control);</span>
+<span class="fc" id="L32">	}</span>
+
+	public void setImage(Image image) {
+<span class="nc" id="L35">		this.image = image;</span>
+<span class="nc" id="L36">		repaint();</span>
+<span class="nc" id="L37">	}</span>
+	
+	@Override
+	public void paintComponent(Graphics g) {	// updates the screen
+<span class="fc" id="L41">		super.paintComponent(g);</span>
+		
+<span class="fc" id="L43">		Graphics2D g2 = (Graphics2D)g;</span>
+
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">		if (model == null) { return; }	// nothing to draw. Only here for WindowBuilder</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">		if (image == null) { return; }</span>
+		
+<span class="nc" id="L48">		g.drawImage(image, 0, 0, this);</span>
+		
+<span class="nc" id="L50">		g.setColor(model.getBasicBorderColor());</span>
+<span class="nc" id="L51">		g2.setStroke(new BasicStroke(model.getBasicBorderThickness()));</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">		for (Annotation a : model) {</span>
+<span class="nc" id="L53">			g.drawRect(a.origin.x, a.origin.y, a.width, a.height);</span>
+		}
+		
+<span class="nc" id="L56">		Annotation selected = model.getSelectedAnnotation();</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">		if (selected != null) {</span>
+<span class="nc" id="L58">			g.setColor(model.getSelectedBorderColor());</span>
+<span class="nc" id="L59">			g2.setStroke(new BasicStroke(model.getSelectedBorderThickness()));</span>
+<span class="nc" id="L60">			g.drawRect(selected.origin.x, selected.origin.y, selected.width, selected.height);</span>
+		}
+<span class="nc" id="L62">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span>test (Dec 9, 2020 12:44:48 PM)</div></body></html>
